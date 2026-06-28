@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .test {
+        height: 100px;
+        width: 300px;
+        background-color: #e9a6ec;
+      }
+
+      .active {
+        background-color: #a9ebb1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test active"></div>
+    <div class="test"></div>
+    <div class="test"></div>
+    <script>
+      const testdiv = document.getElementsByClassName('test')
+      const testdiv1 = document.querySelectorAll('.test')
+
+      //   testdiv1.forEach(function (element) {
+      //     element.addEventListener('click', function () {
+      //       if (this === testdiv1[0]) {
+      //         this.classList.add('active')
+      //         testdiv1[1].classList.remove('active')
+      //         testdiv1[2].classList.remove('active')
+      //       } else if (this === testdiv1[1]) {
+      //         this.classList.add('active')
+      //         testdiv1[0].classList.remove('active')
+      //         testdiv1[2].classList.remove('active')
+      //       } else {
+      //         this.classList.add('active')
+      //         testdiv1[0].classList.remove('active')
+      //         testdiv1[1].classList.remove('active')
+      //       }
+      //     })
+      //   })
+      testdiv1.forEach(function (element) {
+        element.addEventListener('click', function () {
+          if (this === testdiv1[0]) {
+            // this.setattributes('class','active')
+            this.class = 'test active'
+            testdiv1[1].class = 'test'
+            testdiv1[2].class = 'test'
+          } else if (this === testdiv1[1]) {
+            this.class = 'test active'
+            testdiv1[0].class = 'test'
+            testdiv1[2].class = 'test'
+          } else {
+            this.class = 'test active'
+            testdiv1[0].class = 'test'
+            testdiv1[1].class = 'test'
+          }
+        })
+      })
+      console.log(testdiv)
+      console.log(testdiv1)
+    </script>
+  </body>
+</html>

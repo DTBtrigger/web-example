@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const test1 = function () {
+        console.log(arguments)
+        console.log(arguments[0])
+      }
+      //   const test2 = () => {
+      //     console.log(...args)
+      //   }
+      const addNumber = function (a, b) {
+        console.log('arguments:' + arguments)
+        return a + b
+      }
+      const addNumber2 = (...args) => {
+        console.log('args:' + args)
+      }
+      test1(1, 2, 3, 4)
+      addNumber(2, 3)
+      addNumber2(2, 3)
+      console.log('========================================')
+      //   test2(1, 2, 3, 4)
+      // ====================================================
+      function sum(a, b) {
+        console.log('a:', a, 'b:', b)
+      }
+
+      function wrapper(fn) {
+        return function () {
+          console.log('arguments:', arguments)
+          console.log('...arguments:', ...arguments)
+          return fn(...arguments)
+        }
+      }
+
+      const wrappedSum = wrapper(sum)
+      wrappedSum(3, 4)
+    </script>
+  </body>
+</html>

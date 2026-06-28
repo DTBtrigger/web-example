@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D 带纹理+菌褶的蘑菇</title>
+    <style>
+      /* 页面 3D 基础设置 */
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f8ff;
+        perspective: 1200px; /* 更自然的 3D 视角 */
+      }
+
+      /* 蘑菇 3D 容器 */
+      .mushroom {
+        position: relative;
+        transform-style: preserve-3d;
+        animation: sway 5s ease-in-out infinite;
+      }
+
+      /* 3D 蘑菇帽子（含纹理+菌褶） */
+      .mushroom-cap {
+        position: relative;
+        width: 180px;
+        height: 110px;
+        transform-style: preserve-3d;
+      }
+
+      /* 帽子正面（带木纹纹理） */
+      .cap-front {
+        width: 180px;
+        height: 110px;
+        border-radius: 90px 90px 25px 25px;
+        position: absolute;
+        /* 红色木纹纹理：渐变模拟木材纹理 */
+        background: linear-gradient(
+          45deg,
+          #e74c3c 0%,
+          #d63031 30%,
+          #e74c3c 50%,
+          #d63031 70%,
+          #e74c3c 100%
+        );
+        background-size: 200% 200%;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        /* 轻微纹理起伏 */
+        filter: contrast(1.1) brightness(1.05);
+      }
+
+      /* 帽子侧面（纹理延伸+厚度） */
+      .cap-side {
+        width: 35px;
+        height: 110px;
+        position: absolute;
+        top: 0;
+        left: 180px;
+        border-radius: 0 25px 25px 0;
+        /* 侧面纹理：颜色更深，纹理更暗 */
+        background: linear-gradient(90deg, #c0392b 0%, #b71c1c 100%);
+        transform: rotateY(-90deg) translateZ(-35px);
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 帽子顶部（纹理闭合） */
+      .cap-top {
+        width: 180px;
+        height: 35px;
+        position: absolute;
+        top: 0;
+        border-radius: 90px 90px 0 0;
+        background: linear-gradient(0deg, #e74c3c 0%, #d63031 100%);
+        transform: rotateX(90deg) translateZ(110px);
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 白色斑点（带立体凸起+纹理） */
+      .mushroom-spot {
+        position: absolute;
+        background: radial-gradient(circle, #ffffff 0%, #f5f5f5 70%, #eeeeee 100%);
+        border-radius: 50%;
+        transform: translateZ(8px); /* 凸起效果 */
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      .spot1 {
+        width: 35px;
+        height: 35px;
+        top: 25px;
+        left: 35px;
+      }
+
+      .spot2 {
+        width: 45px;
+        height: 45px;
+        top: 40px;
+        left: 90px;
+      }
+
+      .spot3 {
+        width: 30px;
+        height: 30px;
+        top: 30px;
+        right: 35px;
+      }
+
+      /* 菌褶（帽子底部放射状结构） */
+      .gills {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 180px;
+        height: 30px;
+        transform: translateZ(-10px) rotateX(10deg); /* 3D 倾斜，让菌褶可见 */
+        display: flex;
+        justify-content: center;
+      }
+
+      .gill {
+        width: 2px;
+        height: 30px;
+        margin: 0 4px;
+        background: linear-gradient(to top, #34495e 0%, #2c3e50 100%);
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+        border-radius: 1px;
+      }
+
+      /* 3D 蘑菇茎（带纤维纹理） */
+      .mushroom-stem {
+        position: relative;
+        width: 65px;
+        height: 130px;
+        margin: 0 auto;
+        transform-style: preserve-3d;
+      }
+
+      /* 茎正面（纤维纹理） */
+      .stem-front {
+        width: 65px;
+        height: 130px;
+        background: linear-gradient(
+          90deg,
+          #ecf0f1 0%,
+          #f8f9fa 30%,
+          #ecf0f1 50%,
+          #f8f9fa 70%,
+          #ecf0f1 100%
+        );
+        background-size: 100% 200%;
+        border-radius: 32px;
+        position: absolute;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        /* 茎部细微凸起纹理 */
+        filter: contrast(1.05) brightness(1.02);
+      }
+
+      /* 茎侧面（厚度+纹理延伸） */
+      .stem-side {
+        width: 25px;
+        height: 130px;
+        position: absolute;
+        top: 0;
+        left: 65px;
+        border-radius: 0 18px 18px 0;
+        background: linear-gradient(90deg, #dfe6e9 0%, #e0e0e0 100%);
+        transform: rotateY(-90deg) translateZ(-25px);
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* 3D 地面阴影（随 3D 角度变化） */
+      .mushroom-shadow {
+        width: 140px;
+        height: 30px;
+        background-color: rgba(0, 0, 0, 0.18);
+        border-radius: 50%;
+        margin: 10px auto 0;
+        transform: rotateX(90deg) translateZ(-60px);
+        filter: blur(8px);
+      }
+
+      /* 3D 摇晃动画（更自然的多角度旋转） */
+      @keyframes sway {
+        0%,
+        100% {
+          transform: rotateX(8deg) rotateY(-5deg);
+        }
+        50% {
+          transform: rotateX(-8deg) rotateY(5deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mushroom">
+      <!-- 3D 蘑菇帽子（带纹理+菌褶） -->
+      <div class="mushroom-cap">
+        <div class="cap-front">
+          <div class="mushroom-spot spot1"></div>
+          <div class="mushroom-spot spot2"></div>
+          <div class="mushroom-spot spot3"></div>
+        </div>
+        <div class="cap-side"></div>
+        <div class="cap-top"></div>
+        <!-- 菌褶：16 条放射状结构 -->
+        <div class="gills">
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+          <div class="gill"></div>
+        </div>
+      </div>
+      <!-- 3D 蘑菇茎（带纤维纹理） -->
+      <div class="mushroom-stem">
+        <div class="stem-front"></div>
+        <div class="stem-side"></div>
+      </div>
+      <!-- 3D 地面阴影 -->
+      <div class="mushroom-shadow"></div>
+    </div>
+  </body>
+</html>

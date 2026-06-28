@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let p = new Promise((resolve, reject) => {
+        //这里面，用来传递数据，resolve和reject用来传递成功或失败时的数据
+        //这里面，会改变promise的状态
+        //fulfilled状态
+        resolve('执行成功的结果')
+        //rejected状态
+        // reject('执行失败的结果')
+      })
+
+      // p.then 返回一个promise实例
+      let t = p
+        .then(
+          //这里面，用来接收和处理数据
+          (value) => {
+            console.log('成功时调用' + value)
+            // console.log(a)
+          },
+          (value) => {
+            console.log('失败时调用' + value)
+          }
+        )
+        .then(
+          (value) => {
+            console.log('成功2' + value)
+          },
+          () => {
+            console.log('失败2')
+          }
+        )
+      console.log(p)
+      console.log(t)
+
+      let r = new Promise((resolve) => {
+        resolve('尝试一下只写resolve')
+      }).then((value) => {
+        console.log('成功了' + value)
+      })
+    </script>
+  </body>
+</html>

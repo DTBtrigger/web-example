@@ -5,7 +5,7 @@
   "window.zoomLevel": 1.0,
   "editor.wordWrap": "on",
   "git.enableSmartCommit": true,
-  "workbench.colorTheme": "Default Light+",
+  "workbench.colorTheme": "Light+",
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false
 }

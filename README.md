@@ -95,3 +95,4 @@
   **解决：** 显式声明`button`类型：`type='button'`
 
 - 回调**不等于**异步(暂时还没搞清楚，之后再说)
+- `...args`和`...arguments`，在`js-practice10.html`中（之后再说）
